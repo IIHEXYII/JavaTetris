@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 //generates div grid
 const container = document.querySelector('.grid');
+const miniGrid = document.querySelector('.mini-grid');
 for (let i = 0; i < 200; i++) {
     const div = document.createElement('div');
     div.className = 'squares';
@@ -11,14 +12,18 @@ for (let i = 0; i < 10; i++) {
     div.className = 'taken';
     container.appendChild(div);
 }
+for (let i = 0; i < 16; i++) {
+    const div = document.createElement('div');
+    miniGrid.appendChild(div);
+}
 
 
 const width = 10;
+let nextRandom = 0
 const grid = document.querySelector('.grid');
 let squares = Array.from(document.querySelectorAll('.grid div'));
 //TODO const ScoreDisplay = document.querySelector('#score');
 //TODO const StartBtn = document.querySelector('#start-button');
-let nextRandom = 0
 
 
 //The Tetrominoes
@@ -70,7 +75,7 @@ console.log(random);
 //draw the tetromino
 function draw() {
     current.forEach(index => {
-      squares[currentPosition + index].classList.add('tetromino')
+    squares[currentPosition + index].classList.add('tetromino')
     })
 }
 //undraw the tetromino
@@ -103,8 +108,9 @@ function freeze() {
     nextRandom = Math.floor(Math.random() * theTetrominoes.length)
     current = theTetrominoes[random] [currentRotation]
     currentPosition = 4
-    draw()}
-
+    draw()
+    displayShape()
+    }
 }   
 
 //assign functions to keyCodes
@@ -121,8 +127,7 @@ function control(e) {
 }
 
 document.addEventListener('keyup', control)
-
-
+//BUG: Shapes can still split if rotated at the edge need to find a solution to this bug. 
 //move the tetromino Left, unless is at the edge or there is a blockage
 function moveLeft() {
 undraw()
@@ -158,7 +163,30 @@ function rotate() {
     draw()
 }
 
+  //show up-next tetromino in mini-grid display
+const displaySquares = document.querySelectorAll('.mini-grid div')
+const displayWidth = 4
+let displayIndex = 0
 
+// display next Tetromino
+const upNextTetrominoes = [
+    [1, displayWidth+1, displayWidth*2+1, 2], //lTetromino
+    [0, displayWidth, displayWidth+1, displayWidth*2+1], //zTetromino
+    [1, displayWidth, displayWidth+1, displayWidth+2], //tTetromino
+    [0, 1, displayWidth, displayWidth+1], //oTetromino
+    [1, displayWidth+1, displayWidth*2+1, displayWidth*3+1] //iTetromino
+]
+
+// display the shape
+function displayShape() {
+    // remove any trace of Tetromino
+    displaySquares.forEach(square => {
+    square.classList.remove('tetromino')     
+    })
+    upNextTetrominoes[nextRandom].forEach( index => {
+        displaySquares[displayIndex + index].classList.add('tetromino')
+    })
+}
 
 
 
