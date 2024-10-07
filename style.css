@@ -1,0 +1,19 @@
+
+
+    .grid {
+        display: flex;
+        flex-wrap: wrap;
+        width: 400px;
+        height: 800px;
+        background-color: bisque;
+    }
+
+    .grid div {
+        height: 40px;
+        width: 40px;
+        /* background-color: brown; */
+    }
+
+    .tetromino {
+        background-color: blue;
+    }
