@@ -12,11 +12,12 @@ for (let i = 0; i < 10; i++) {
     container.appendChild(div);
 }
 
+
 const width = 10;
 const grid = document.querySelector('.grid');
 let squares = Array.from(document.querySelectorAll('.grid div'));
-const ScoreDisplay = document.querySelector('#score');
-const StartBtn = document.querySelector('#start-button');
+//TODO const ScoreDisplay = document.querySelector('#score');
+//TODO const StartBtn = document.querySelector('#start-button');
 let nextRandom = 0
 
 
@@ -57,7 +58,7 @@ const iTetromino = [
 ]
 
 const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
-
+// sets the initial position and default orientation.
 let currentPosition = 4
 let currentRotation = 0
 
@@ -111,7 +112,7 @@ function control(e) {
     if(e.keyCode === 37) {
         moveLeft()
     } else if (e.keyCode === 38) {
-        // rotate()
+        rotate()
     } else if (e.keyCode === 39) {
         moveRight()
     } else if (e.keyCode === 40) {
@@ -143,6 +144,31 @@ if(current.some(index => squares[currentPosition + index].classList.contains('ta
 }
 draw()
 }
+
+
+//rotating shapes
+
+function rotate() {
+    undraw()
+    currentRotation ++
+    if (currentRotation === current.length) { // Wil make it select 0 again once it reach the end of the array
+        currentRotation = 0
+    }
+    current = theTetrominoes [random][currentRotation]
+    draw()
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
