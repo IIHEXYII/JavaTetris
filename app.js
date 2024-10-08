@@ -20,10 +20,11 @@ for (let i = 0; i < 16; i++) {
 
 const width = 10;
 let nextRandom = 0
+let timerId
 const grid = document.querySelector('.grid');
 let squares = Array.from(document.querySelectorAll('.grid div'));
-//TODO const ScoreDisplay = document.querySelector('#score');
-//TODO const StartBtn = document.querySelector('#start-button');
+//TODO const scoreDisplay = document.querySelector('#score');
+const startBtn = document.querySelector('#start-button');
 
 
 //The Tetrominoes
@@ -88,7 +89,7 @@ function undraw() {
 
 
 //makle the tetromino moving down every second
-timerId =  setInterval(moveDown,1000)
+// timerId =  setInterval(moveDown,1000)
 
 // move tetromino down
 function moveDown() {
@@ -188,6 +189,18 @@ function displayShape() {
     })
 }
 
+
+startBtn.addEventListener('click', () => {
+if (timerId) {
+    clearInterval(timerId) 
+    timerId = null
+} else {
+    draw()
+    timerId = setInterval(moveDown, 1000)
+    nextRandom = Math.floor(Math.random()*theTetrominoes.length)
+    displayShape()
+    }
+})
 
 
 
