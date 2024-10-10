@@ -1,3 +1,24 @@
+* {
+    font-family: system-ui,-apple-system,system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.scoreText {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2rem;
+    margin-bottom: 10px;
+    color: #333;
+    text-shadow: 2px 2px 0px #FFFFFF, 4px 4px 0px rgba(0,0,0,0.15);
+}
+
+#score {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 2.5rem;
+    color: #ff0000;
+    ;
+    margin-bottom: 20px;
+}
+
+/* ... rest of your CSS ... */
 .container {
     display: flex;
 }
@@ -13,14 +34,11 @@
 .grid div {
     height: 40px;
     width: 40px;
-    /* background-color: brown; */
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1); /* Light black border */
 }
-
-.tetromino {
-    background-color: blue;
-}
-.mini-grid .tetromino {
-    background-color: red;
+.grid .bottom {
+    border: 1px solid rgba(245, 0, 0, 0); 
 }
 
 .mini-grid {
@@ -35,5 +53,61 @@
     width: 40px;
     height: 40px;
     background-color: bisque;
+    box-sizing: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.1); 
 }
 
+.square .tetromino {
+    border: 1px solid black;
+}
+
+.scoreText {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    
+}
+
+#start-button {
+    align-items: center;
+    background-clip: padding-box;
+    background-color: #4cdf84;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+    box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+    box-sizing: border-box;
+    color: #fff;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 16px;
+    font-weight: 600;
+    justify-content: center;
+    line-height: 1.25;
+    margin: 0;
+    min-height: 3rem;
+    padding: calc(.875rem - 1px) calc(1.5rem - 1px);
+    position: relative;
+    text-decoration: none;
+    transition: all 250ms;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: baseline;
+    width: auto;
+}
+
+#start-button:hover,
+#start-button:focus {
+    background-color: #3ff585;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+#start-button:hover {
+    transform: translateY(-1px);
+}
+
+#start-button:active {
+    background-color: #289e55;
+    box-shadow: rgba(0, 0, 0, .06) 0 2px 4px;
+    transform: translateY(0);
+}
