@@ -27,6 +27,13 @@ let timerId
 let score = 0
 
 
+const colors = [
+    'red',
+    'orange',
+    'green',
+    'blue',
+    'purple'
+]
 
 //The Tetrominoes
 const lTetromino = [
@@ -78,7 +85,7 @@ console.log(random);
 function draw() {
     current.forEach(index => {
     squares[currentPosition + index].classList.add('tetromino')
-    
+    squares[currentPosition + index].style.backgroundColor = colors[random]
     })
 }
 //undraw the tetromino
@@ -217,10 +224,13 @@ const upNextTetrominoes = [
 function displayShape() {
     // remove any trace of Tetromino
     displaySquares.forEach(square => {
-    square.classList.remove('tetromino')     
+    square.classList.remove('tetromino')    
+    square.style.backgroundColor = ''
     })
     upNextTetrominoes[nextRandom].forEach( index => {
         displaySquares[displayIndex + index].classList.add('tetromino')
+        displaySquares[displayIndex + index].style.backgroundColor = colors[nextRandom]
+
     })
 }
 
@@ -240,28 +250,29 @@ if (timerId) {
 
 
 // Add a score
-
-    function addScore() {
-        for (let i = 0; i < 199; i +=width) {
-            const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
-            if(row.every(index => squares[index].classList.contains('taken'))) {
-                score +=10
-                scoreDisplay.innerHTML = score
-                row.forEach(index => {
-                    squares[index].classList.remove('taken')
-                    squares[index].classList.remove('tetromino')
-                })
-                const squaresRemoved = squares.splice(i, width)
-                squares = squaresRemoved.concat(squares)
-                squares.forEach(cell => grid.appendChild(cell))
-                console.log(squaresRemoved)
-            }
+function addScore() {
+    for (let i = 0; i < 199; i += width) {
+        const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
+        if (row.every(index => squares[index].classList.contains('taken'))) {
+            score += 10
+            scoreDisplay.innerHTML = score
+            row.forEach(index => {
+                squares[index].classList.remove('taken')
+                squares[index].classList.remove('tetromino')
+                squares[index].style.backgroundColor = ''
+            })
+            const squaresRemoved = squares.splice(i, width)
+            squares = squaresRemoved.concat(squares)
+            squares.forEach(cell => grid.appendChild(cell))
+        } else {
+            row.forEach(index => {
+                if (!squares[index].classList.contains('taken') && !squares[index].classList.contains('tetromino')) {
+                    squares[index].style.backgroundColor = 'bisque'
+                }
+            })
         }
     }
-
-
-
-
+}
 
 //gameover 
 
