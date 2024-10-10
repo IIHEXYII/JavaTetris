@@ -27,6 +27,7 @@ let timerId
 let score = 0
 
 
+
 //The Tetrominoes
 const lTetromino = [
     [1, width+1, width*2+1, 2],
@@ -77,6 +78,7 @@ console.log(random);
 function draw() {
     current.forEach(index => {
     squares[currentPosition + index].classList.add('tetromino')
+    
     })
 }
 //undraw the tetromino
@@ -130,7 +132,6 @@ function control(e) {
 }
 
 document.addEventListener('keyup', control)
-//BUG: Shapes can still split if rotated at the edge need to find a solution to this bug. 
 //move the tetromino Left, unless is at the edge or there is a blockage
 function moveLeft() {
 undraw()
@@ -138,7 +139,7 @@ const isAtLeftEdge = current.some(index => (currentPosition + index) % width ===
 if(!isAtLeftEdge) currentPosition -=1
 if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
     currentPosition +=1
-}
+}s
 draw()
 }
 
@@ -154,16 +155,48 @@ draw()
 }
 
 
-//rotating shapes
+//rotating Tetromino shapes
 
 function rotate() {
-    undraw()
-    currentRotation ++
-    if (currentRotation === current.length) { // Wil make it select 0 again once it reach the end of the array
-        currentRotation = 0
+    undraw();
+    const originalRotation = currentRotation;
+    currentRotation++;
+    if (currentRotation === current.length) {
+        currentRotation = 0;
     }
-    current = theTetrominoes [random][currentRotation]
-    draw()
+    let newCurrent = theTetrominoes[random][currentRotation];
+
+    // Check if the new rotation is out of bounds
+    const isAtRightEdge = newCurrent.some(index => (currentPosition + index) % width === width - 1);
+    const isAtLeftEdge = newCurrent.some(index => (currentPosition + index) % width === 0);
+    const isOutOfBounds = newCurrent.some(index => (currentPosition + index) < 0 || (currentPosition + index) >= squares.length);
+
+    if (isAtRightEdge || isAtLeftEdge || isOutOfBounds) {
+        // Try to move left or right to fit the rotation
+        if (isAtRightEdge) {
+            currentPosition -= 1;
+            newCurrent = theTetrominoes[random][currentRotation];
+            if (newCurrent.some(index => (currentPosition + index) % width === width - 1 || (currentPosition + index) < 0 || (currentPosition + index) >= squares.length)) {
+                currentPosition += 1; // Revert if still out of bounds
+                currentRotation = originalRotation;
+                newCurrent = theTetrominoes[random][currentRotation];
+            }
+        } else if (isAtLeftEdge) {
+            currentPosition += 1;
+            newCurrent = theTetrominoes[random][currentRotation];
+            if (newCurrent.some(index => (currentPosition + index) % width === 0 || (currentPosition + index) < 0 || (currentPosition + index) >= squares.length)) {
+                currentPosition -= 1; // Revert if still out of bounds
+                currentRotation = originalRotation;
+                newCurrent = theTetrominoes[random][currentRotation];
+            }
+        } else if (isOutOfBounds) {
+            currentRotation = originalRotation;
+            newCurrent = theTetrominoes[random][currentRotation];
+        }
+    }
+
+    current = newCurrent;
+    draw();
 }
 
   //show up-next tetromino in mini-grid display
