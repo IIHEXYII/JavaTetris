@@ -43,11 +43,11 @@ function updateScoreColor() {
 }
 
 const colors = [
-    'red',
-    'orange',
-    'green',
-    'blue',
-    'purple'
+    '#ff006e',
+    '#ffbe0b',
+    '#8ac926',
+    '#3a86ff',
+    '#8338ec'
 ]
 
 //The Tetrominoes
